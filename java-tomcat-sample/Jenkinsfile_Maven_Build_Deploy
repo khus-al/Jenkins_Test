@@ -53,6 +53,13 @@ pipeline {
                 deploy adapters: [tomcat9(credentialsId: 'tomcat_deployer', path: '', url: 'http://172.31.48.60:8080/')], contextPath: 'prod-java-tomcat-pipeline-sample', war: '**/*.war'
             }
         }
+        stage('sending war file to ansible server'){
+            steps{
+                echo "sending war file to ansible server"
+                sshagent{['akash']} {
+                sh 'ssh -o StrictHostKeyChecking=no akash@172.31.95.148'
+                sh 'scp -r -o StrictHostKeyzchecking=no /var/lib/jenkins/workspace/Pipeline-job/webapp/target/* akash@172.31.95.148:/opt/plabooks/targets/webapp.war
+              
     }
     post {
         always {
